@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Selector</title>
+</head>
+
+<body>
+    <h1>Create Selector</h1>
+    <script>
+        CreateSelector:
+            -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+            -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+
+            Question:
+            1. why we use createSelector ?
+
+            Answer : Namma particular slice la ulla state change akum podhu oru
+        function ah call pananum na namba createSelector use panuvom
+
+        -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+        -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+        2. How we use createSelector ?
+
+            Answer : Nama first redux toolkit library il erunthu createSelector
+        import panuvom.
+        example: import {
+                createSelector
+            } from "@reduxjs/toolkit"
+
+            -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+            -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+            3. what is the createSelector Syntax ?
+
+            Answer : Mudhalil naam useMemo(() => []);
+        hook ai ninaivil vaithirubom.
+
+        NOTE: dependency - > Shoudl be a
+        function
+
+        createSelector(
+            [dependecny1, dependency2....n], // input selectors
+            () => {} //Callback functions or Transformation function            
+        );
+
+
+        -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+        -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+        4. How to Apply createSelector in React Component ?
+
+            Answer : Mudhalil Naam Thanni file il create panikalam illai endral createSlice page ill create panikalam
+
+        Example 1:
+            NOTE: we Should
+        export createSelector
+
+        //Separate File
+
+        import {
+            createSelector
+        } from "@reduxjs/toolkit";
+
+        const selectname = state => {
+            // console.log("selectname",state);
+            return state.dataname
+        }
+        const selectcount = state => {
+            //  console.log("selectcount",state.count);
+            return state.count;
+        }
+
+        export const selectCartTotal = createSelector(
+            [selectcount, selectname],
+            (count, names) => {
+                // {console.log(names)}
+                if (count > 5) {
+                    return names
+                } else {
+                    return [{
+                        name: "David"
+                    }];
+                }
+            }
+        );
+
+        -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+        -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+        Example 2:
+
+            NOTE: we Should
+        export createSelector
+        //CreateSlice File
+
+        import {
+            createSlice,
+            createSelector
+        } from "@reduxjs/toolkit";
+
+        const selectname = state => {
+            console.log("selectname", state);
+            return state.dataname
+        }
+
+        const selectcount = state => {
+            console.log("selectcount", state.count);
+            return state.count;
+        }
+
+        export const selectCartTotal = createSelector(
+            [selectcount, selectname],
+            (count, names) => {
+                // {console.log(names)}
+                if (count > 5) {
+                    return names
+                } else {
+                    return [{
+                        name: "David"
+                    }];
+                }
+            }
+        );
+
+        const initialState = {
+            dataname: [{
+                name: "surendar"
+            }, {
+                name: "Akash"
+            }, {
+                name: "Federal"
+            }],
+            count: 0
+        }
+
+        const SelectRedux = createSlice({
+            name: "Selectors",
+            initialState,
+            reducers: {
+                NameSelector(state, action) {
+                    state.dataname = [...state.dataname, action.payload];
+                },
+                IncrementSelector(state, action) {
+                    state.count++
+                },
+                DecrementSelector(state, action) {
+                    state.count--
+                }
+            }
+        })
+
+        export const {
+            NameSelector,
+            IncrementSelector,
+            DecrementSelector
+        } = SelectRedux.actions;
+        export default SelectRedux.reducer;
+        -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+        -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+
+        5. where should we
+        import selectCartTotal(createSelector
+                export panathu) ?
+
+            Answer : Naam Export pana selectCartTotal ai React Component page il
+        import panavom
+
+        Example:
+
+            import {
+                selectCartTotal
+            } from "./CreateSelector"; - > Separate File
+        // import { selectCartTotal } from "./SelectRedux"; ->CreateSlice file
+
+        const reduxdata = useSelector((state) => state.reduxselect);
+        const getData = selectCartTotal(reduxdata);
+
+        Naam redux store ill ov ovoru muraium changes nadakum podhu createSelector ill ulla conditions ai check pani correct conditions match
+        akum podhu namaku createSelector il erunthu data
+        return akum.
+
+            -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+            -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+
+            6. Can you explain the workflow of the createSelector ?
+
+            Step 1 : createSelector ai reduxtoolkit / js
+        import panitu
+
+        -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+        -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+
+        7. Can we use multiple createSelector ?
+
+            Answer : Yes
+
+        Example:
+
+            import {
+                createSelector
+            } from "@reduxjs/toolkit";
+
+        const selectname = state => {
+            // console.log("selectname",state);
+            return state.SelectRedux.dataname
+        }
+        const selectcount = state => {
+            //  console.log("selectcount",state.SelectRedux.count);
+            return state.SelectRedux.count;
+        }
+        const selectcount2 = state => {
+            //  console.log("selectcount",state.count);
+            return state.SelectRedux2.count
+        }
+
+        export const selectCartTotal = createSelector(
+            [selectcount, selectcount2, selectname],
+            (count, count2, names) => {
+                if (count > 5 && count2 > 5) {
+                    return names
+                } else {
+                    return [{
+                        name: "David"
+                    }];
+                }
+            }
+        );
+
+        export const selectCartTotal1 = createSelector(
+            [selectcount, selectcount2, selectname],
+            (count, count2, names) => {
+                if (count > 5 && count2 > 5) {
+                    return names
+                } else {
+                    return [{
+                        name: "David"
+                    }];
+                }
+            }
+        );
+
+        //BELOW EXAMPLE INCLUDING FILE
+        CreateSelector:
+            -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+            -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+
+            Question:
+            1. why we use createSelector ?
+
+            Answer : Namma particular slice la ulla state change akum podhu oru
+        function ah call pananum na namba createSelector use panuvom
+
+        -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+        -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+        2. How we use createSelector ?
+
+            Answer : Nama first redux toolkit library il erunthu createSelector
+        import panuvom.
+        example: import {
+                createSelector
+            } from "@reduxjs/toolkit"
+
+            -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+            -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+            3. what is the createSelector Syntax ?
+
+            Answer : Mudhalil naam useMemo(() => []);
+        hook ai ninaivil vaithirubom.
+
+        NOTE: dependency - > Shoudl be a
+        function
+
+        createSelector(
+            [dependecny1, dependency2....n], // input selectors
+            () => {} //Callback functions or Transformation function            
+        );
+
+
+        -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+        -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+        4. How to Apply createSelector in React Component ?
+
+            Answer : Mudhalil Naam Thanni file il create panikalam illai endral createSlice page ill create panikalam
+
+        Example 1:
+            NOTE: we Should
+        export createSelector
+
+        //Separate File
+
+        import {
+            createSelector
+        } from "@reduxjs/toolkit";
+
+        const selectname = state => {
+            // console.log("selectname",state);
+            return state.dataname
+        }
+        const selectcount = state => {
+            //  console.log("selectcount",state.count);
+            return state.count;
+        }
+
+        export const selectCartTotal = createSelector(
+            [selectcount, selectname],
+            (count, names) => {
+                // {console.log(names)}
+                if (count > 5) {
+                    return names
+                } else {
+                    return [{
+                        name: "David"
+                    }];
+                }
+            }
+        );
+
+        -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+        -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+        Example 2:
+
+            NOTE: we Should
+        export createSelector
+        //CreateSlice File
+
+        import {
+            createSlice,
+            createSelector
+        } from "@reduxjs/toolkit";
+
+        const selectname = state => {
+            console.log("selectname", state);
+            return state.dataname
+        }
+
+        const selectcount = state => {
+            console.log("selectcount", state.count);
+            return state.count;
+        }
+
+        export const selectCartTotal = createSelector(
+            [selectcount, selectname],
+            (count, names) => {
+                // {console.log(names)}
+                if (count > 5) {
+                    return names
+                } else {
+                    return [{
+                        name: "David"
+                    }];
+                }
+            }
+        );
+
+        const initialState = {
+            dataname: [{
+                name: "surendar"
+            }, {
+                name: "Akash"
+            }, {
+                name: "Federal"
+            }],
+            count: 0
+        }
+
+        const SelectRedux = createSlice({
+            name: "Selectors",
+            initialState,
+            reducers: {
+                NameSelector(state, action) {
+                    state.dataname = [...state.dataname, action.payload];
+                },
+                IncrementSelector(state, action) {
+                    state.count++
+                },
+                DecrementSelector(state, action) {
+                    state.count--
+                }
+            }
+        })
+
+        export const {
+            NameSelector,
+            IncrementSelector,
+            DecrementSelector
+        } = SelectRedux.actions;
+        export default SelectRedux.reducer;
+        -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+        -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+
+        5. where should we
+        import selectCartTotal(createSelector
+                export panathu) ?
+
+            Answer : Naam Export pana selectCartTotal ai React Component page il
+        import panavom
+
+        Example:
+
+            import {
+                selectCartTotal
+            } from "./CreateSelector"; - > Separate File
+        // import { selectCartTotal } from "./SelectRedux"; ->CreateSlice file
+
+        const reduxdata = useSelector((state) => state.reduxselect);
+        const getData = selectCartTotal(reduxdata);
+
+        Naam redux store ill ov ovoru muraium changes nadakum podhu createSelector ill ulla conditions ai check pani correct conditions match
+        akum podhu namaku createSelector il erunthu data
+        return akum.
+
+            -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+            -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+
+            6. Can you explain the workflow of the createSelector ?
+
+            Step 1 : createSelector ai reduxtoolkit / js
+        import panitu
+
+        -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+        -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -
+
+        7. Can we use multiple createSelector ?
+
+            Answer : Yes
+
+        Example:
+
+            import {
+                createSelector
+            } from "@reduxjs/toolkit";
+
+        const selectname = state => {
+            // console.log("selectname",state);
+            return state.SelectRedux.dataname
+        }
+        const selectcount = state => {
+            //  console.log("selectcount",state.SelectRedux.count);
+            return state.SelectRedux.count;
+        }
+        const selectcount2 = state => {
+            //  console.log("selectcount",state.count);
+            return state.SelectRedux2.count
+        }
+
+        export const selectCartTotal = createSelector(
+            [selectcount, selectcount2, selectname],
+            (count, count2, names) => {
+                if (count > 5 && count2 > 5) {
+                    return names
+                } else {
+                    return [{
+                        name: "David"
+                    }];
+                }
+            }
+        );
+
+        export const selectCartTotal1 = createSelector(
+            [selectcount, selectcount2, selectname],
+            (count, count2, names) => {
+                if (count > 5 && count2 > 5) {
+                    return names
+                } else {
+                    return [{
+                        name: "David"
+                    }];
+                }
+            }
+        );
+    </script>
+
+</body>
+
+</html>
